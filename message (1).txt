@@ -1,0 +1,456 @@
+--[[
+Uses MyWorld's optimization methods
+myworldmain#0
+]]
+
+local RandomTP=false
+
+local Enum=Enum
+local pairs=pairs
+local typeof=typeof
+local game=game
+local Workspace=game:FindFirstChildOfClass("Workspace")
+local RunService=game:FindFirstChildOfClass("RunService")
+local StarterGui=game:FindFirstChildOfClass("StarterGui")
+local UserInputService=game:FindFirstChildOfClass("UserInputService")
+local Instancenew=Instance.new
+local osclock=os.clock
+local stringmatch=string.match
+local math=math
+local mathrandom=math.random
+local mathsin=math.sin
+local mathmax=math.min --:troll:
+local task=task
+local taskspawn=task.spawn
+local taskwait=task.wait
+local table=table
+local tableclear=table.clear
+local tablefind=table.find
+local tableinsert=table.insert
+local Vector3=Vector3
+local Vector3new=Vector3.new
+local Vector3zero=Vector3.zero
+local CFrame=CFrame
+local CFrameAngles=CFrame.Angles
+local CFrameidentity=CFrame.identity
+local CFramenew=CFrame.new
+local StopReanimate=nil
+local function EmpereanReanimate(Tables)
+	local Parts={}
+	local Fling={}
+	local Attachments={}
+	local Accessories={}
+
+	local Success=false
+	local InputBegan=nil
+	local PropertyChangedSignalCurrentCamera=nil
+	local PropertyChangedSignalCharacter=nil
+	local PostSimulationConnect=nil
+
+	local DeltaTime=0
+	local LastTime=osclock()
+
+	local Velocity=Vector3new(0,4000,0)
+
+	local CurrentCamera=Workspace.CurrentCamera
+
+	local LocalPlayer=game:FindFirstChildOfClass("Players").LocalPlayer
+	local Mouse=LocalPlayer:GetMouse()
+
+	local InputType=Enum.UserInputType
+	local Touch=InputType.Touch
+	local MouseButton1=InputType.MouseButton1
+
+	local BindableEvent=Instancenew("BindableEvent")
+
+	local function FindFirstChildOfClassAndName(Parent,ClassName,Name)
+		if typeof(Parent)=="Instance"then
+			for _,Instance in pairs(Parent:GetChildren())do
+				if Instance:IsA(ClassName)and Instance.Name==Name then
+					return Instance
+				end
+			end
+		end
+	end
+
+	local function WaitForChildOfClassAndName(Parent,...)
+		local Instance=FindFirstChildOfClassAndName(Parent,...)
+
+		while not Instance and typeof(Parent)=="Instance"do
+			Parent.ChildAdded:Wait()
+			Instance=FindFirstChildOfClassAndName(Parent,...)
+		end
+
+		return Instance
+	end
+
+	local a=Vector3new(2,2,1)local b=Vector3new(1,2,1)local c=Instancenew("Model")local function d(e,f)local d=Instancenew("Part");d.Transparency=1;d.Name=e;d.Size=f;d.Parent=c;return d end;local function g(e,h,i,j,k)local g=Instancenew("Motor6D")g.Name=e;g.Part0=h;g.Part1=i;g.C0=j;g.C1=k;g.Parent=h end;local function l(e,m,n)local l=Instancenew("Attachment")l.Name=e;l.CFrame=m;l.Parent=n tableinsert(Attachments,l)end;Instancenew("Shirt",c)Instancenew("ShirtGraphic",c)Instancenew("Pants",c)Instancenew("BodyColors",c)local o=Instancenew("Humanoid",c)Instancenew("Animator",o)local p=d("Head",Vector3new(2,1,1))local q=d("Torso",a)local r=d("HumanoidRootPart",a)local s=d("Right Arm",b)local t=d("Left Arm",b)local u=d("Right Leg",b)local v=d("Left Leg",b)g("Right Shoulder",q,s,CFramenew(1,0.5,0,0,0,1,0,1,0,-1,-0,-0),CFramenew(-0.5,0.5,0,0,0,1,0,1,0,-1,-0,-0))g("Left Shoulder",q,t,CFramenew(-1,0.5,0,-0,-0,-1,0,1,0,1,0,0),CFramenew(0.5,0.5,0,-0,-0,-1,0,1,0,1,0,0))g("Right Hip",q,u,CFramenew(1,-1,0,0,0,1,0,1,0,-1,-0,-0),CFramenew(0.5,1,0,0,0,1,0,1,0,-1,-0,-0))g("Left Hip",q,v,CFramenew(-1,-1,0,-0,-0,-1,0,1,0,1,0,0),CFramenew(-0.5,1,0,-0,-0,-1,0,1,0,1,0,0))g("Neck",q,p,CFramenew(0,1,0,-1,-0,-0,0,0,1,0,1,0),CFramenew(0,-0.5,0,-1,-0,-0,0,0,1,0,1,0))g("RootJoint",r,q,CFramenew(0,0,0,-1,-0,-0,0,0,1,0,1,0),CFramenew(0,0,0,-1,-0,-0,0,0,1,0,1,0))local w=Instancenew("Decal")w.Transparency=1;w.Name="face"w.Texture="rbxasset://textures/face.png"w.Parent=p;local x=Instancenew("SpecialMesh")x.Name="Mesh"x.MeshType=Enum.MeshType.Head;x.Scale=Vector3new(1.25,1.25,1.25)x.Parent=p;l("HairAttachment",CFramenew(0,0.600000024,0,1,0,0,0,1,0,0,0,1),p)l("HatAttachment",CFramenew(0,0.600000024,0,1,0,0,0,1,0,0,0,1),p)l("FaceFrontAttachment",CFramenew(0,0,-0.600000024,1,0,0,0,1,0,0,0,1),p)l("FaceCenterAttachment",CFramenew(0,0,0,1,0,0,0,1,0,0,0,1),p)l("NeckAttachment",CFramenew(0,1,0,1,0,0,0,1,0,0,0,1),q)l("BodyFrontAttachment",CFramenew(0,0,-0.5,1,0,0,0,1,0,0,0,1),q)l("BodyBackAttachment",CFramenew(0,0,0.5,1,0,0,0,1,0,0,0,1),q)l("LeftCollarAttachment",CFramenew(-1,1,0,1,0,0,0,1,0,0,0,1),q)l("RightCollarAttachment",CFramenew(1,1,0,1,0,0,0,1,0,0,0,1),q)l("WaistFrontAttachment",CFramenew(0,-1,-0.5,1,0,0,0,1,0,0,0,1),q)l("WaistCenterAttachment",CFramenew(0,-1,0,1,0,0,0,1,0,0,0,1),q)l("WaistBackAttachment",CFramenew(0,-1,0.5,1,0,0,0,1,0,0,0,1),q)l("LeftShoulderAttachment",CFramenew(0,1,0,1,0,0,0,1,0,0,0,1),t)l("LeftGripAttachment",CFramenew(0,-1,0,1,0,0,0,1,0,0,0,1),t)l("RightShoulderAttachment",CFramenew(0,1,0,1,0,0,0,1,0,0,0,1),s)l("RightGripAttachment",CFramenew(0,-1,0,1,0,0,0,1,0,0,0,1),s)l("LeftFootAttachment",CFramenew(0,-1,0,1,0,0,0,1,0,0,0,1),v)l("RightFootAttachment",CFramenew(0,-1,0,1,0,0,0,1,0,0,0,1),u)l("RootAttachment",CFramenew(0,0,0,1,0,0,0,1,0,0,0,1),r)c.PrimaryPart=p;c.Parent=Workspace
+	local Model=c
+	local ModelHead=p
+	local ModelHumanoid=o
+	local ModelHumanoidRootPart=r
+
+	local LocalPlayerCharacter=LocalPlayer.Character
+
+	local PreSimulationConnect=RunService.PreSimulation:Connect(function()
+		if LocalPlayerCharacter then
+			for _,BasePart in pairs(LocalPlayerCharacter:GetChildren())do
+				if BasePart:IsA("BasePart")then
+					BasePart.CanCollide=false
+				end
+			end
+		end
+	end)
+
+	local HumanoidRootPart=FindFirstChildOfClassAndName(LocalPlayerCharacter,"BasePart","HumanoidRootPart")
+	local CoordinateFrame=HumanoidRootPart and HumanoidRootPart.CFrame or CFrameidentity
+	ModelHumanoidRootPart.CFrame=CoordinateFrame
+
+	Model.DescendantAdded:Connect(function(Attachment)
+		if Attachment:IsA("Attachment")then
+			tableinsert(Attachments,Attachment)
+		end
+	end)
+
+	local function Information(MeshId,TextureId)
+		for _,Table in pairs(Tables)do
+			if stringmatch(MeshId,Table.MeshId)and stringmatch(TextureId,Table.TextureId)then
+				return FindFirstChildOfClassAndName(Model,"BasePart",Table.Name),Table.CFrame
+			end
+		end
+	end
+
+	local function CreateAccessory(Mesh,Handle,string)
+		local MeshId=Mesh.MeshId
+		local TextureId=Mesh[string]
+
+		for Index,Table in pairs(Accessories)do
+			local TableHandle=Table.Handle
+
+			if typeof(Handle)~="Instance"then
+				Accessories[Index]=nil
+			end
+			if Table.MeshId==MeshId and Table.TextureId==TextureId then
+				local Instance,CFrame=Information(MeshId,TextureId)
+
+				if Instance then
+					tableinsert(Parts,{Part0=Handle,Part1=Instance,CFrame=CFrame})
+					return
+				end
+
+				tableinsert(Parts,{Part0=Handle,Part1=TableHandle})
+				return
+			end
+		end
+
+		local Parent=Handle.Parent
+
+		if Parent:IsA("Accessory")then
+			local Accessory=Instancenew("Accessory")
+			Accessory.Name=Parent.Name
+			Accessory.Parent=Model
+
+			Handle.Archivable=true
+			local HandleClone=Handle:Clone()
+			HandleClone.Transparency=1
+			HandleClone.Parent=Accessory
+
+			local Weld=Instancenew("Weld")
+			Weld.Name="AccessoryWeld"
+			Weld.Part0=HandleClone
+
+			local Attachment=HandleClone:FindFirstChildOfClass("Attachment")
+
+			if Attachment then
+				local Name=Attachment.Name
+				Weld.C0=Attachment.CFrame
+
+				for _,Attachment in pairs(Attachments)do
+					if Attachment.Name==Name then
+						Weld.C1=Attachment.CFrame
+						Weld.Part1=Attachment.Parent
+						break
+					end
+				end
+			else
+				Weld.Part1=ModelHead
+			end
+
+			Weld.Parent=HandleClone
+
+			tableinsert(Accessories,{MeshId=MeshId,TextureId=TextureId,Handle=HandleClone,Accessory=Accessory})
+
+			local Instance,CFrame=Information(MeshId,TextureId)
+
+			if Instance then
+				tableinsert(Parts,{Part0=Handle,Part1=Instance,CFrame=CFrame})
+			else
+				tableinsert(Parts,{Part0=Handle,Part1=HandleClone})
+			end
+		end
+	end
+
+	local function DescendantAdded(Attachment)
+		if Attachment:IsA("Attachment")then
+			local Name=Attachment.Name
+			local Parent=Attachment.Parent
+
+			for _,Attachment in pairs(Attachments)do
+				if Attachment.Name==Name then
+					if Parent:IsA("MeshPart")then
+						CreateAccessory(Parent,Parent,"TextureID")
+					else
+						local SpecialMesh=Parent:FindFirstChildOfClass("SpecialMesh")
+
+						if SpecialMesh then
+							CreateAccessory(SpecialMesh,Parent,"TextureId")
+						end
+					end
+				end
+			end
+		end
+	end
+
+	local function CharacterModel()
+		local CameraCFrame=CurrentCamera.CFrame
+		CurrentCamera.CameraSubject=ModelHumanoid
+		LocalPlayer.Character=Model
+		taskspawn(function()
+			CurrentCamera:GetPropertyChangedSignal("CFrame"):Wait()
+			CurrentCamera.CFrame=CameraCFrame
+		end)
+	end
+
+	local function CharacterAdded()
+		local Character=LocalPlayer.Character
+
+		if Character and Character~=Model then
+			LocalPlayerCharacter=Character
+			CharacterModel()
+
+			for _,Instance in pairs(Character:GetDescendants())do
+				DescendantAdded(Instance)
+			end
+
+			Character.DescendantAdded:Connect(DescendantAdded)
+
+			local HumanoidRootPart=WaitForChildOfClassAndName(Character,"BasePart","HumanoidRootPart")
+
+			if HumanoidRootPart then
+				for _,Part in pairs(Fling)do
+					local LastPosition=Part.Position
+
+					local Time=osclock()+1.5
+
+					while Part and osclock()<Time and not Part.Anchored and Part:IsDescendantOf(Workspace)do
+						local Position=Part.Position
+
+						if (Part.Position-LastPosition).Magnitude/DeltaTime>100 then
+							break
+						end
+						LastPosition=Position
+
+						HumanoidRootPart.AssemblyLinearVelocity=Velocity
+						HumanoidRootPart.AssemblyAngularVelocity=Velocity
+						HumanoidRootPart.CFrame=Part.CFrame*CFramenew(0,0,4*mathsin(osclock()*30))
+
+						taskwait()
+					end
+				end
+
+				tableclear(Fling)
+
+				HumanoidRootPart.AssemblyLinearVelocity=Vector3zero
+				HumanoidRootPart.AssemblyAngularVelocity=Vector3zero
+
+				local GameTime=mathmax(Workspace.DistributedGameTime/6,24)
+				HumanoidRootPart.CFrame=ModelHumanoidRootPart.CFrame+(RandomTP and Vector3new(mathrandom(-GameTime,GameTime),0,mathrandom(-GameTime,GameTime))or Vector3zero)
+			end
+
+			if Character then
+				taskwait()
+
+				if Character then
+					Character:BreakJoints()
+				end
+			end
+		end
+	end
+
+	local function SetCore(Argument)
+		StarterGui:SetCore("ResetButtonCallback",Argument)
+	end
+
+	StopReanimate=function()
+		InputBegan:Disconnect()
+		PropertyChangedSignalCurrentCamera:Disconnect()
+		PropertyChangedSignalCharacter:Disconnect()
+		PreSimulationConnect:Disconnect()
+		PostSimulationConnect:Disconnect()
+
+		if Model then
+			Model:Destroy()
+		end
+
+		SetCore(true)
+	end
+
+	Model:GetPropertyChangedSignal("Parent"):Connect(function()
+		if not Model:IsDescendantOf(game)then
+			StopReanimate()
+		end
+	end)
+
+	BindableEvent.Event:Connect(StopReanimate)
+
+	InputBegan=UserInputService.InputBegan:Connect(function(Input)
+		local InputType=Input.UserInputType
+
+		if InputType==MouseButton1 or InputType==Touch then
+			local Target=Mouse.Target
+
+			if Target then
+				local Parent=Target.Parent
+
+				if Parent:IsA("Model")then
+					if Parent~=LocalPlayerCharacter then
+						local HumanoidRootPart=FindFirstChildOfClassAndName(Parent,"BasePart","HumanoidRootPart")
+
+						if HumanoidRootPart and not tablefind(Fling,HumanoidRootPart)then
+							tableinsert(Fling,HumanoidRootPart)
+						end
+					end
+				elseif not tablefind(Fling,Target)then
+					tableinsert(Fling,Target)
+				end
+			end
+		end
+	end)
+
+	while not CurrentCamera do
+		Workspace:GetPropertyChangedSignal("CurrentCamera"):Wait()
+		CurrentCamera=Workspace.CurrentCamera
+	end
+
+	PropertyChangedSignalCurrentCamera=Workspace:GetPropertyChangedSignal("CurrentCamera"):Connect(function()
+		local Camera=Workspace.CurrentCamera
+
+		if Camera then
+			CurrentCamera=Workspace.CurrentCamera
+		end
+	end)
+
+	CharacterAdded()
+	ModelHumanoidRootPart.CFrame=CoordinateFrame
+	PropertyChangedSignalCharacter=LocalPlayer:GetPropertyChangedSignal("Character"):Connect(CharacterAdded)
+
+	PostSimulationConnect=game:FindFirstChildOfClass("RunService").PostSimulation:Connect(function()
+		local Time=osclock()
+		DeltaTime=Time-LastTime
+		LastTime=Time
+
+		local number=27+mathsin(Time)
+		local Axis=0.001*mathsin(Time*12.5)
+		local CoordinateFrame=CFramenew(Axis,Axis,Axis)
+
+		for _,Table in pairs(Parts)do
+			local Part0=Table.Part0
+			local Part1=Table.Part1
+
+			if typeof(Part0)=="Instance"and typeof(Part1)=="Instance" and Part0.ReceiveAge==0 then 
+				Part0:BreakJoints()
+				local LinearVelocity=Part1.AssemblyLinearVelocity*number
+
+				Part0.AssemblyAngularVelocity=Vector3zero
+				Part0.AssemblyLinearVelocity=Vector3new(LinearVelocity.X,number,LinearVelocity.Z)
+
+				local TableCFrame=Table.CFrame
+				Part0.CFrame=Part1.CFrame*(TableCFrame or CFrameidentity)*CoordinateFrame
+			end
+		end
+
+		if not Success then
+			Success=pcall(SetCore,BindableEvent)
+		else
+			SetCore(BindableEvent)
+		end
+	end)
+end
+-- 11159410305,11159483910,11263254795,13423624885,12652786974
+EmpereanReanimate({
+	{Name="Torso",MeshId="13423569204",TextureId="11403536702",},
+	{Name="Right Arm",MeshId="11263221350",TextureId="11263219250",CFrame=CFrameAngles(1.57,-1.57,0)},
+	{Name="Left Arm",MeshId="11159370334",TextureId="11159284657",CFrame=CFrameAngles(1.57,1.57,0)},
+	{Name="Left Leg",MeshId="11159370334",TextureId="11159285454",CFrame=CFrameAngles(1.57,1.57,0)},
+	{Name="Right Leg",MeshId="12652772399",TextureId="12652775021",}
+})
+-----------//KRYSTAL DANCE V2\\-----------
+--[[Movelist
+Q = The Swoosher
+E = The nutty
+R = Spin me right round!
+T = Plum juice dance
+Y = Moonwalk
+U = Slav dance
+P = Barrel roll
+F = The Jerky
+G = The Shuffle
+H = The Spongebob
+J = Here comes the money!
+K = Runnin' in the 90's
+---------]]
+
+--Alright so before i start rambling on about absolute nonsense, please subscribe to Pewdiepie on youtube! Help him defeat T-Series!--
+--Also subscribe to Vengefulprogram--
+--Krystal dance! The old famous script that sadly has been broken(sorta), i've decided to rework this thing because... nostalgia.--
+--This is one of the first scripts i've ever ran on SB, seeing this back again really reminds me of how much of a noob i was.--
+--Credits to Krystalteam, they made the original krystal dance! Be sure to respect them or else...--
+--#makeoldscriptsgreatagain--
+
+if game:GetService("RunService"):IsClient()then error("Please run as a server script. Use h/ instead of hl/.")end;print("FE Compatibility: by WaverlyCole");InternalData = {}
+do
+	script.Parent = owner.Character
+	local Event = Instance.new("RemoteEvent");Event.Name = "UserInput"
+	local function NewFakeEvent()
+		local Bind = Instance.new("BindableEvent")
+		local Fake;Fake = {Connections = {},
+		fakeEvent=true;
+		Connect=function(self,Func)
+			Bind.Event:connect(Func)
+			self.Connections[Bind] = true
+			return setmetatable({Connected = true},{
+			__index = function (self,Index)
+				if Index:lower() == "disconnect" then
+					return function() Fake.Connections[Bind] = false;self.Connected = false end
+				end
+				return Fake[Index]
+			end;
+			__tostring = function() return "Connection" end;
+		})
+		end}
+		Fake.connect = Fake.Connect;return Fake;
+	end
+	local Mouse = {Target=nil,Hit=CFrame.new(),KeyUp=NewFakeEvent(),KeyDown=NewFakeEvent(),Button1Up=NewFakeEvent(),Button1Down=NewFakeEvent()}
+	local UserInputService = {InputBegan=NewFakeEvent(),InputEnded=NewFakeEvent()}
+	local ContextActionService = {Actions={},BindAction = function(self,actionName,Func,touch,...)
+		self.Actions[actionName] = Func and {Name=actionName,Function=Func,Keys={...}} or nil
+	end};ContextActionService.UnBindAction = ContextActionService.BindAction
+	local function TriggerEvent(self,Event,...)
+		local Trigger = Mouse[Event]
+		if Trigger and Trigger.fakeEvent and Trigger.Connections then
+			for Connection,Active in pairs(Trigger.Connections) do if Active then Connection:Fire(...) end end
+		end
+	end
+	Mouse.TrigEvent = TriggerEvent;UserInputService.TrigEvent = TriggerEvent
+	Event.OnServerEvent:Connect(function(FiredBy,Input)
+		if FiredBy.Name ~= owner.Name then return end
+		if Input.MouseEvent then
+			Mouse.Target = Input.Target;Mouse.Hit = Input.Hit
+		else
+			local Begin = Input.UserInputState == Enum.UserInputState.Begin
+			if Input.UserInputType == Enum.UserInputType.MouseButton1 then return Mouse:TrigEvent(Begin and "Button1Down" or "Button1Up") end
+			for _,Action in pairs(ContextActionService.Actions) do
+				for _,Key in pairs(Action.Keys) do if Key==Input.KeyCode then Action.Function(Action.Name,Input.UserInputState,Input) end end
+			end
+			Mouse:TrigEvent(Begin and "KeyDown" or "KeyUp",Input.KeyCode.Name:lower())
+			UserInputServ
